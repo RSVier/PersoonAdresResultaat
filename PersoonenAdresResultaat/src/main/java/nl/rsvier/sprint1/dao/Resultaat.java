@@ -1,6 +1,19 @@
 package nl.rsvier.sprint1.dao;
 
-public class Resultaat {
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table 
+public class Resultaat  implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	private String modulenaam;
@@ -9,6 +22,9 @@ public class Resultaat {
 	
 	private boolean voldoende;
 
+	@ManyToOne
+	private Persoon persoon;
+	
 	public int getId() {
 		return id;
 	}
@@ -39,5 +55,13 @@ public class Resultaat {
 
 	public void setVoldoende(boolean voldoende) {
 		this.voldoende = voldoende;
+	}
+
+	public Persoon getPersoon() {
+		return persoon;
+	}
+
+	public void setPersoon(Persoon persoon) {
+		this.persoon = persoon;
 	}
 }

@@ -1,6 +1,8 @@
 package nl.rsvier.sprint1.dao.impl;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import nl.rsvier.sprint1.dao.AdresDAO;
 import nl.rsvier.sprint1.dao.PersoonDAO;
@@ -12,7 +14,10 @@ public class RsvierDAOFactory {
 	
 	private EntityManager em;
 	
-	private RsvierDAOFactory() {}
+	private RsvierDAOFactory() {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("rsvier");
+		em = factory.createEntityManager();
+	}
 	
 	public static RsvierDAOFactory getInstance() {
 		if (instance == null) {
@@ -31,5 +36,17 @@ public class RsvierDAOFactory {
 	
 	public ResultaatDAO getResultaatDAO() {
 		return new ResultaatDAOImpl(em);
+	}
+	
+	public void startTransaction() {
+		em.getTransaction().begin();
+	}
+	
+	public void confirmChanges() {
+		em.getTransaction().commit();
+	}
+	
+	public void cancelChanges() {
+		em.getTransaction().rollback();
 	}
 }

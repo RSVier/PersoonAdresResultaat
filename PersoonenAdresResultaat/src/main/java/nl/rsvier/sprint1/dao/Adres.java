@@ -1,11 +1,23 @@
 package nl.rsvier.sprint1.dao;
 
-public class Adres {
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table 
+public class Adres implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	private String straatnaam;
 	
-	private int huisnumer;
+	private int huisnummer;
 	
 	private String toevoeging;
 	
@@ -29,12 +41,12 @@ public class Adres {
 		this.straatnaam = straatnaam;
 	}
 
-	public int getHuisnumer() {
-		return huisnumer;
+	public int getHuisnummer() {
+		return huisnummer;
 	}
 
-	public void setHuisnumer(int huisnumer) {
-		this.huisnumer = huisnumer;
+	public void setHuisnummer(int huisnummer) {
+		this.huisnummer = huisnummer;
 	}
 
 	public String getToevoeging() {

@@ -3,6 +3,7 @@ package nl.rsvier.sprint1.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import nl.rsvier.sprint1.dao.Adres;
 import nl.rsvier.sprint1.dao.AdresDAO;
@@ -17,31 +18,29 @@ public class AdresDAOImpl implements AdresDAO {
 	
 	@Override
 	public List<Adres> getAllAdressen() {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createQuery("select adres from Adres as adres");
+		List<Adres> adresList = query.getResultList();
+		return adresList;
 	}
 
 	@Override
 	public void updateAdres(Adres adres) {
-		// TODO Auto-generated method stub
-		
+		em.merge(adres);
 	}
 
 	@Override
 	public void deleteAdres(Adres adres) {
-		// TODO Auto-generated method stub
-		
+		em.remove(adres);
 	}
 
 	@Override
 	public void addAdres(Adres adres) {
-		// TODO Auto-generated method stub
-		
+		em.persist(adres);
 	}
 
 	@Override
 	public Adres getAdres(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Adres adres = em.find(Adres.class, id);
+		return adres;
 	}
 }

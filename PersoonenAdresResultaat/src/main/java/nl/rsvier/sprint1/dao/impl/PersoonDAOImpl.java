@@ -3,6 +3,7 @@ package nl.rsvier.sprint1.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import nl.rsvier.sprint1.dao.Persoon;
 import nl.rsvier.sprint1.dao.PersoonDAO;
@@ -17,32 +18,30 @@ public class PersoonDAOImpl implements PersoonDAO {
 	
 	@Override
 	public List<Persoon> getAllPersonen() {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createQuery("select persoon from Persoon as persoon");
+		List<Persoon> persoonList = query.getResultList();
+		return persoonList;
 	}
 
 	@Override
 	public void updatePersoon(Persoon persoon) {
-		// TODO Auto-generated method stub
-		
+		em.merge(persoon);
 	}
 
 	@Override
 	public void deletePersoon(Persoon persoon) {
-		// TODO Auto-generated method stub
-		
+		em.remove(persoon);
 	}
 
 	@Override
 	public void addPersoon(Persoon persoon) {
-		// TODO Auto-generated method stub
-		
+		em.persist(persoon);
 	}
 
 	@Override
 	public Persoon getPersoon(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Persoon persoon = em.find(Persoon.class, id);
+		return persoon;
 	}
 
 }
