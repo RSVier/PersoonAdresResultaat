@@ -1,18 +1,6 @@
 package nl.rsvier.sprint1.dao;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table 
-public class Adres implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+public class Adres {
 	private int id;
 	
 	private String straatnaam;

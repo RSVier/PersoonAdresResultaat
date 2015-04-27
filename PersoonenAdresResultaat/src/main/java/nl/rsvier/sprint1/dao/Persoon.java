@@ -1,22 +1,6 @@
 package nl.rsvier.sprint1.dao;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-import javax.persistence.Table;
-
-@Entity
-@Table 
-public class Persoon  implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+public class Persoon {
 	private int id;
 	
 	private String voornaam;
@@ -27,12 +11,9 @@ public class Persoon  implements Serializable {
 	
 	private String geboortedatum;
 	
-	@ManyToOne
 	private Adres adres;
 	
-	@OneToMany (targetEntity=Resultaat.class)
-	@OrderColumn
-	private List<Resultaat> resultaten;
+	private Resultaat[] resultaten;
 
 	public int getId() {
 		return id;
@@ -82,11 +63,11 @@ public class Persoon  implements Serializable {
 		this.adres = adres;
 	}
 
-	public List<Resultaat> getResultaten() {
+	public Resultaat[] getResultaten() {
 		return resultaten;
 	}
 
-	public void setResultaten(List<Resultaat> resultaten) {
+	public void setResultaten(Resultaat[] resultaten) {
 		this.resultaten = resultaten;
 	}
 }

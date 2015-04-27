@@ -31,10 +31,8 @@ CREATE TABLE `persoon` (
   `achternaam` varchar(100) NOT NULL,
   `tussenvoegsel` varchar(10) DEFAULT NULL,
   `geboortedatum` varchar(20) NOT NULL,
-  `adres_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `adres_id_idx` (`adres_id`),
-  CONSTRAINT `adres_id_fk` FOREIGN KEY (`adres_id`) REFERENCES `adres` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `adres_id` int(11) NULL,
+  PRIMARY KEY (`id`)
 );
 --
 -- Table structure for table `resultaat`
@@ -46,9 +44,6 @@ CREATE TABLE `resultaat` (
   `modulenaam` varchar(100) NOT NULL,
   `resultaat` float NOT NULL,
   `voldoende` tinyint(1) NOT NULL,
-  `persoon_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_idx` (`persoon_id`),
-  KEY `persoon_id_idx` (`persoon_id`),
-  CONSTRAINT `persoon_id_fk` FOREIGN KEY (`persoon_id`) REFERENCES `persoon` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `persoon_id` int(11) NULL,
+  PRIMARY KEY (`id`)
 );

@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface ResultaatDAO {
 	List<Resultaat> getAllResultaten();
-	
+
+	List<Resultaat> getAllResultaten(int persoonId);
+
 	void updateResultaat(Resultaat resultaat);
 	
 	void deleteResultaat(Resultaat resultaat);

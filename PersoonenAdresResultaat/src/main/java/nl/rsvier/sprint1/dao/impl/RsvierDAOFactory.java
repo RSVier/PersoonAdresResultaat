@@ -1,8 +1,8 @@
 package nl.rsvier.sprint1.dao.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import nl.rsvier.sprint1.dao.AdresDAO;
 import nl.rsvier.sprint1.dao.PersoonDAO;
@@ -10,13 +10,20 @@ import nl.rsvier.sprint1.dao.ResultaatDAO;
 
 public class RsvierDAOFactory {
 	
+	private static final String MY_SQL_DB = "jdbc:mysql://localhost/rsvier";
+	
+	private static final String USERNAME = "root";
+	
 	private static RsvierDAOFactory instance;
 	
-	private EntityManager em;
+	private Connection connection;
 	
 	private RsvierDAOFactory() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("rsvier");
-		em = factory.createEntityManager();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static RsvierDAOFactory getInstance() {
@@ -27,26 +34,54 @@ public class RsvierDAOFactory {
 	}
 	
 	public PersoonDAO getPersoonDAO() {
-		return new PersoonDAOImpl(em);
+		return new PersoonDAOImpl(connection);
 	}
 	
 	public AdresDAO getAdresDAO() {
-		return new AdresDAOImpl(em);
+		return new AdresDAOImpl(connection);
 	}
 	
 	public ResultaatDAO getResultaatDAO() {
-		return new ResultaatDAOImpl(em);
+		return new ResultaatDAOImpl(connection);
 	}
 	
+	public void openConnection() {
+		try {
+			connection = DriverManager.getConnection(MY_SQL_DB, USERNAME, null);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void closeConnection() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void startTransaction() {
-		em.getTransaction().begin();
+		try {
+			connection.setAutoCommit(false);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public void confirmChanges() {
-		em.getTransaction().commit();
+		try {
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void cancelChanges() {
-		em.getTransaction().rollback();
+		try {
+			connection.rollback();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
