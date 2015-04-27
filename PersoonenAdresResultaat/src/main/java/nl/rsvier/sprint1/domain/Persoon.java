@@ -1,5 +1,7 @@
 package nl.rsvier.sprint1.domain;
 
+import nl.rsvier.sprint1.domain.Adres;
+import nl.rsvier.sprint1.domain.Resultaat;
 
 public class Persoon {
 	private int id;
