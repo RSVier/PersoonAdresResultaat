@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.Resultaat;
 import nl.rsvier.sprint1.dao.ResultaatDAO;
+import nl.rsvier.sprint1.domain.Resultaat;
 
 public class ResultaatDAOImpl implements ResultaatDAO {
 

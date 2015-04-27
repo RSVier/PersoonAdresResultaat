@@ -1,4 +1,4 @@
-package nl.rsvier.sprint1.dao;
+package nl.rsvier.sprint1.domain;
 
 public class Resultaat {
 	private int id;

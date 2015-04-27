@@ -2,6 +2,8 @@ package nl.rsvier.sprint1.dao;
 
 import java.util.List;
 
+import nl.rsvier.sprint1.domain.Resultaat;
+
 public interface ResultaatDAO {
 	List<Resultaat> getAllResultaten();
 

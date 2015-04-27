@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.Adres;
 import nl.rsvier.sprint1.dao.AdresDAO;
+import nl.rsvier.sprint1.domain.Adres;
 
 public class AdresDAOImpl implements AdresDAO {
 	

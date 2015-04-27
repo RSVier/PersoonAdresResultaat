@@ -1,4 +1,5 @@
-package nl.rsvier.sprint1.dao;
+package nl.rsvier.sprint1.domain;
+
 
 public class Persoon {
 	private int id;
