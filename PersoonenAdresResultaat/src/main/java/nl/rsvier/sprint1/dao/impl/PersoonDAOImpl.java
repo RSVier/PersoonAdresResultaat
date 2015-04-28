@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +98,11 @@ public class PersoonDAOImpl implements PersoonDAO {
 			st.setString(3, persoon.getAchternaam());
 			st.setString(4, persoon.getTussenvoegsel());
 			st.setString(5, persoon.getGeboortedatum());
-			st.setInt(6, persoon.getAdres().getId());
+			if (persoon.getAdres() != null) {
+				st.setInt(6, persoon.getAdres().getId());
+			} else {
+				st.setNull(6, Types.JAVA_OBJECT);
+			}
 			st.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
