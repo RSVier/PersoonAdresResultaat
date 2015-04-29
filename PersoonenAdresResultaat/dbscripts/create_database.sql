@@ -4,46 +4,63 @@
 -- ------------------------------------------------------
 -- Server version	5.6.23
 
+-- Drop tables
+ DROP TABLE IF EXISTS `resultaat`;
+ DROP TABLE IF EXISTS `persoon`;
+ DROP TABLE IF EXISTS `adres`;
 
 --
 -- Table structure for table `adres`
 --
-
-DROP TABLE IF EXISTS `adres`;
+ 
 CREATE TABLE `adres` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `straatnaam` varchar(100) NOT NULL,
   `huisnummer` int(11) NOT NULL,
   `toevoeging` varchar(5) DEFAULT NULL,
   `postcode` varchar(10) NOT NULL,
   `woonplaats` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `Unique_Adres`
+  	UNIQUE (straatnaam, huisnummer, toevoeging, postcode, woonplaats)
 );
 
 --
 -- Table structure for table `persoon`
 --
 
-DROP TABLE IF EXISTS `persoon`;
+
 CREATE TABLE `persoon` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `voornaam` varchar(100) NOT NULL,
   `achternaam` varchar(100) NOT NULL,
   `tussenvoegsel` varchar(10) DEFAULT NULL,
   `geboortedatum` varchar(20) NOT NULL,
-  `adres_id` int(11) NULL,
-  PRIMARY KEY (`id`)
+  `Adres_id` int(11) NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_Persoon_Adres`
+    FOREIGN KEY (`Adres_id`)
+    REFERENCES `adres` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `Unique_Person`
+  	UNIQUE (voornaam, achternaam, tussenvoegsel, geboortedatum)
 );
 --
 -- Table structure for table `resultaat`
 --
 
-DROP TABLE IF EXISTS `resultaat`;
+
 CREATE TABLE `resultaat` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `persoon_id` int(11) NULL, 
   `modulenaam` varchar(100) NOT NULL,
   `resultaat` float NOT NULL,
   `voldoende` tinyint(1) NOT NULL,
-  `persoon_id` int(11) NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_Resultaat_Persoon`
+  	FOREIGN KEY (`persoon_id`)
+  	REFERENCES `persoon` (`id`)
+  	ON DELETE NO ACTION
+  	ON UPDATE NO ACTION
 );

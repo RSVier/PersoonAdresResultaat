@@ -29,7 +29,7 @@ public class DataGenerator {
 			persoon.setVoornaam("Voornaam" + (i + 1));
 			persoon.setAchternaam("Achternaam" + (i + 1));
 			persoon.setGeboortedatum("01-03-1990");
-			persoonDao.addPersoon(persoon);
+			persoonDao.createPersoon(persoon);
 			persoonList.add(persoon);
 		}
 		System.out.println("5000 persons added.");
@@ -42,7 +42,7 @@ public class DataGenerator {
 			adres.setWoonplaats("Woonplaats" + (i + 1));
 			adres.setStraatnaam("Straatnaam" + (i + 1));
 			adres.setPostcode("1234 AS");
-			adresDao.addAdres(adres);
+			adresDao.createAdres(adres);
 			adresList.add(adres);
 		}
 		System.out.println("2500 addresses added.");
@@ -65,7 +65,7 @@ public class DataGenerator {
 			resultaat.setResultaat((float) (Math.random() * 10 + 1));
 			resultaat.setVoldoende(((int) (Math.random()+0.5) == 1 ? true : false));
 			resultaat.setPersoonId(persoon.getId());
-			resultaatDao.addResultaat(resultaat);
+			resultaatDao.createResultaat(resultaat);
 		}
 		System.out.println("Persons are assigned with results.");
 

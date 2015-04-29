@@ -4,73 +4,93 @@ import nl.rsvier.sprint1.domain.Adres;
 import nl.rsvier.sprint1.domain.Resultaat;
 
 public class Persoon {
-	private int id;
-	
-	private String voornaam;
-	
-	private String achternaam;
-	
-	private String tussenvoegsel;
-	
-	private String geboortedatum;
-	
-	private Adres adres;
-	
-	private Resultaat[] resultaten;
+   private int id;
 
-	public int getId() {
-		return id;
-	}
+   private String voornaam;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+   private String achternaam;
 
-	public String getVoornaam() {
-		return voornaam;
-	}
+   private String tussenvoegsel;
 
-	public void setVoornaam(String voornaam) {
-		this.voornaam = voornaam;
-	}
+   private String geboortedatum;
 
-	public String getAchternaam() {
-		return achternaam;
-	}
+   private Adres adres;
 
-	public void setAchternaam(String achternaam) {
-		this.achternaam = achternaam;
-	}
+   private Resultaat[] resultaten;
 
-	public String getTussenvoegsel() {
-		return tussenvoegsel;
-	}
+   @Override
+   public String toString() {
+      StringBuilder sb = new StringBuilder("");
+      sb.append("[Persoon ");
+      sb.append(id);
+      sb.append("] ");
+      sb.append(voornaam);
+      sb.append(" ");
+      if(tussenvoegsel.length() > 0){
+         sb.append(tussenvoegsel);
+         sb.append(" ");
+      }
+      sb.append(achternaam);
+      sb.append(" ");
+      sb.append(geboortedatum);
+      sb.append(" ");
+      sb.append(adres.toString());
+      return sb.toString();
+   }
 
-	public void setTussenvoegsel(String tussenvoegsel) {
-		this.tussenvoegsel = tussenvoegsel;
-	}
+   public int getId() {
+      return id;
+   }
 
-	public String getGeboortedatum() {
-		return geboortedatum;
-	}
+   public void setId(int id) {
+      this.id = id;
+   }
 
-	public void setGeboortedatum(String geboortedatum) {
-		this.geboortedatum = geboortedatum;
-	}
+   public String getVoornaam() {
+      return voornaam;
+   }
 
-	public Adres getAdres() {
-		return adres;
-	}
+   public void setVoornaam(String voornaam) {
+      this.voornaam = voornaam;
+   }
 
-	public void setAdres(Adres adres) {
-		this.adres = adres;
-	}
+   public String getAchternaam() {
+      return achternaam;
+   }
 
-	public Resultaat[] getResultaten() {
-		return resultaten;
-	}
+   public void setAchternaam(String achternaam) {
+      this.achternaam = achternaam;
+   }
 
-	public void setResultaten(Resultaat[] resultaten) {
-		this.resultaten = resultaten;
-	}
+   public String getTussenvoegsel() {
+      return tussenvoegsel;
+   }
+
+   public void setTussenvoegsel(String tussenvoegsel) {
+      this.tussenvoegsel = tussenvoegsel;
+   }
+
+   public String getGeboortedatum() {
+      return geboortedatum;
+   }
+
+   public void setGeboortedatum(String geboortedatum) {
+      this.geboortedatum = geboortedatum;
+   }
+
+   public Adres getAdres() {
+      return adres;
+   }
+
+   public void setAdres(Adres adres) {
+      this.adres = adres;
+   }
+
+   public Resultaat[] getResultaten() {
+      return resultaten;
+   }
+
+   public void setResultaten(Resultaat[] resultaten) {
+      this.resultaten = resultaten;
+   }
 }
