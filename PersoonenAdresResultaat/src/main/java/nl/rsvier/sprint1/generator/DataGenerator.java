@@ -12,62 +12,72 @@ import nl.rsvier.sprint1.domain.Persoon;
 import nl.rsvier.sprint1.domain.Resultaat;
 
 public class DataGenerator {
-	private static final String[] MODULES = {"Module1", "Module2", "Module3", "Module4", "Module5"};
+	private static final String[] MODULES = {"Basis01", "Basis02", "Basis03", "Basis04", "OCA"};
+	private static final String[] WOONPLAATS = {"Amsterdam", "Den Haag", "Rotterdam", "Zwolle", "Groningen",
+		                                        "Hilversum", "Maastricht", "Leiden", "Breda", "Gouda"};
+	private static final String[] STRAATNAAM = {"Lindelaan", "Douglaslaan", "Alexanderhof","Bunnikstraat",
+		                                         "Eeldepad", "Frankenstraat", "Haverkamp", "Wrightlaan", "Plesmanlaan"};
+	private static final String[] VOORNAAM = {"Amalia", "Sam", "Bas", "Noah", "Linda",
+	                                           "Marijke", "Geert", "Bart", "Georg", "Marja"};
+	private static final String[] ACHTERNAAM = {"Jansen", "Bakker", "Visser", "Mulder", "Bos", "Vos", 
+	                                             "Peters", "Hendriks", "Dijkstra", "Smits", "Kok"};
 	
 	public void generateData () {
 		RsvierDAOFactory factory = RsvierDAOFactory.getInstance();
 		factory.openConnection();
+		factory.startTransaction();
 		
 		PersoonDAO persoonDao = factory.getPersoonDAO();
 		AdresDAO adresDao = factory.getAdresDAO();
 		ResultaatDAO resultaatDao = factory.getResultaatDAO();
 		
-		List<Persoon> persoonList = new ArrayList<>();
-		for (int i = 0; i < 5000; i++) {
-			Persoon persoon = new Persoon();
-			persoon.setId(i + 1);
-			persoon.setVoornaam("Voornaam" + (i + 1));
-			persoon.setAchternaam("Achternaam" + (i + 1));
-			persoon.setGeboortedatum("01-03-1990");
-			persoonDao.createPersoon(persoon);
-			persoonList.add(persoon);
-		}
-		System.out.println("5000 persons added.");
-		
 		List<Adres> adresList = new ArrayList<>();
 		for (int i = 0; i < 2500; i++) {
 			Adres adres = new Adres();
-			adres.setId(i + 1);
 			adres.setHuisnummer((int) (Math.random() * 250 + 1));
-			adres.setWoonplaats("Woonplaats" + (i + 1));
-			adres.setStraatnaam("Straatnaam" + (i + 1));
+			adres.setWoonplaats(WOONPLAATS[i % 10]);
+			adres.setStraatnaam(STRAATNAAM[i % 9]);
 			adres.setPostcode("1234 AS");
-			adresDao.createAdres(adres);
+			int adresId = adresDao.createAdres(adres);
+			adres.setId(adresId);
+			
 			adresList.add(adres);
 		}
 		System.out.println("2500 addresses added.");
 
-		
-		for (int i = 0; i < persoonList.size(); i++) {
-			Persoon persoon = persoonList.get(i);
-			Adres adres = adresList.get(i / 4);
-			persoon.setAdres(adres);
-			persoonDao.updatePersoon(persoon);
+		List<Persoon> persoonList = new ArrayList<>();
+		for (int i = 0; i < 5000; i++) {
+			Persoon persoon = new Persoon();
+			persoon.setVoornaam(VOORNAAM[i % 10]);
+			persoon.setAchternaam(ACHTERNAAM[i % 11]);
+			persoon.setGeboortedatum("01-03-1990");
+			
+			persoon.setAdres(adresList.get(i / 4));
+			
+			int persoonId = persoonDao.createPersoon(persoon);
+			persoon.setId(persoonId);
+			persoonList.add(persoon);
 		}
-		System.out.println("Persons are assigned with addresses.");
-
+		System.out.println("5000 persons added.");
 		
 		for (int i = 0; i < persoonList.size(); i ++) {
 			Persoon persoon = persoonList.get(i);
 			Resultaat resultaat = new Resultaat();
-			resultaat.setId(i + 1);
 			resultaat.setModulenaam(MODULES[i % 5]);
-			resultaat.setResultaat((float) (Math.random() * 10 + 1));
 			resultaat.setVoldoende(((int) (Math.random()+0.5) == 1 ? true : false));
+			if (resultaat.isVoldoende()) {
+				resultaat.setResultaat((float)(5 + (Math.random() * 5)));
+			}
+			else {
+				resultaat.setResultaat((float)(Math.random() * 5));
+			}
 			resultaat.setPersoonId(persoon.getId());
 			resultaatDao.createResultaat(resultaat);
 		}
 		System.out.println("Persons are assigned with results.");
+		
+		factory.confirmChanges();
+		factory.closeConnection();
 
 	}
 	
