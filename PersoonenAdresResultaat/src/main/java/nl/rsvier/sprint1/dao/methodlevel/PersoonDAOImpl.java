@@ -69,25 +69,26 @@ public class PersoonDAOImpl implements PersoonDAO {
    public Persoon readPersoon(int id) {
       Persoon persoon = new Persoon();
       persoon.setId(id);
+      ResultSet rs = null;
 
       Connection conn = source.getConnection();
       String sql = "select voornaam, achternaam, tussenvoegsel, geboortedatum, adres from persoon where id = ?";
-      try (PreparedStatement prstmt = conn.prepareStatement(sql)) {
-         prstmt.setInt(1, id);
-         ResultSet rs = prstmt.executeQuery();
-         if(rs.next()) {
+      try (PreparedStatement st = conn.prepareStatement(sql)) {
+         st.setInt(1, id);
+         rs = st.executeQuery();
+         if (rs.next()) {
             persoon.setVoornaam(rs.getString(1));
             persoon.setAchternaam(rs.getString(2));
             persoon.setTussenvoegsel(rs.getString(3));
             persoon.setGeboortedatum(rs.getString(4));
             persoon.setAdres(new AdresDAOImpl(source).readAdres(rs.getInt(5)));
          }
-         
+
       } catch (SQLException e) {
          e.printStackTrace();
       } finally {
          try {
-            conn.close();
+            if (rs != null) rs.close();
          } catch (SQLException e) {}
       }
 

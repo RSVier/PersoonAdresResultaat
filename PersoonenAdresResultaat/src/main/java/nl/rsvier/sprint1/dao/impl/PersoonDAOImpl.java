@@ -103,7 +103,7 @@ public class PersoonDAOImpl implements PersoonDAO {
          if (persoon.getAdres() != null) {
             st.setInt(5, persoon.getAdres().getId());
          } else {
-            st.setNull(5, Types.JAVA_OBJECT);
+            st.setNull(5, Types.INTEGER);
          }
          st.executeUpdate();
 
@@ -152,6 +152,17 @@ public class PersoonDAOImpl implements PersoonDAO {
       }
 
       return persoon;
+   }
+   
+   public void koppelPersoonAanAdres(Persoon persoon, int adresID){
+      try{
+         PreparedStatement st = connection.prepareStatement("update persoon set Adres_id = ? where id = ?");
+         st.setInt(1, adresID);
+         st.setInt(2, persoon.getId());
+         st.executeUpdate();
+      }catch(SQLException e) {
+         e.printStackTrace();
+      }
    }
 
 }
