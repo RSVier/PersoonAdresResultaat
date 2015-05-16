@@ -49,7 +49,7 @@ public class PersoonDAOImpl implements PersoonDAO {
             // get Resultaten
             ResultaatDAO resultaatDao = factory.getResultaatDAO();
             List<Resultaat> listResultaat = resultaatDao.getAllResultaten(persoonId);
-            Resultaat[] resultaten = (Resultaat[]) listResultaat.toArray();
+            Resultaat[] resultaten = (Resultaat[]) listResultaat.toArray(new Resultaat[]{});
             persoon.setResultaten(resultaten);
 
             persoonList.add(persoon);
@@ -122,13 +122,14 @@ public class PersoonDAOImpl implements PersoonDAO {
 
    @Override
    public Persoon readPersoon(int id) {
-      Persoon persoon = new Persoon();
+      Persoon persoon = null;
       try {
          PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, geboortedatum, adres_id " 
                                  + "from persoon where id = ?");
          st.setInt(1, id);
          ResultSet rs = st.executeQuery();
          if (rs.next()) {
+        	persoon = new Persoon(); 
             int persoonId = rs.getInt(1);
 
             persoon.setId(persoonId);

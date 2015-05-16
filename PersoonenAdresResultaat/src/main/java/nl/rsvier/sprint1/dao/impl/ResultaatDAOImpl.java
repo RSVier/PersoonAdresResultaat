@@ -109,6 +109,7 @@ public class ResultaatDAOImpl implements ResultaatDAO {
          rs = st.getGeneratedKeys();
          if (rs.next()) {
             id = rs.getInt(1);
+            resultaat.setId(id);
          }
 
       } catch (SQLException ex) {
@@ -119,12 +120,13 @@ public class ResultaatDAOImpl implements ResultaatDAO {
 
    @Override
    public Resultaat readResultaat(int id) {
-      Resultaat resultaat = new Resultaat();
+      Resultaat resultaat = null;
       try {
          PreparedStatement st = connection.prepareStatement("select id, modulenaam, resultaat, voldoende, persoon_id from resultaat " + " where id = ?");
          st.setInt(1, id);
          ResultSet rs = st.executeQuery();
          if (rs.next()) {
+        	resultaat = new Resultaat();
             resultaat.setId(rs.getInt(1));
             resultaat.setModulenaam(rs.getString(2));
             resultaat.setResultaat(rs.getFloat(3));
