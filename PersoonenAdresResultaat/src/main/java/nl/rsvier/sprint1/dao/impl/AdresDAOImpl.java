@@ -23,7 +23,8 @@ public class AdresDAOImpl implements AdresDAO {
    public List<Adres> getAllAdressen() {
       List<Adres> adresList = new ArrayList<>();
       try {
-         PreparedStatement st = connection.prepareStatement("select id, straatnaam, huisnummer, toevoeging, postcode, woonplaats from adres");
+         PreparedStatement st = connection.prepareStatement("select id, straatnaam, huisnummer, toevoeging, " 
+                          + "postcode, woonplaats from adres");
          ResultSet rs = st.executeQuery();
          while (rs.next()) {
             Adres adres = new Adres();
@@ -100,7 +101,8 @@ public class AdresDAOImpl implements AdresDAO {
    public Adres readAdres(int id) {
       Adres adres = new Adres();
       try {
-         PreparedStatement st = connection.prepareStatement("select id, straatnaam, huisnummer, toevoeging, postcode, woonplaats " + "from adres where id = ?");
+         PreparedStatement st = connection.prepareStatement("select id, straatnaam, huisnummer, toevoeging, postcode, woonplaats " 
+                              + "from adres where id = ?");
          st.setInt(1, id);
          ResultSet rs = st.executeQuery();
          if (rs.next()) {

@@ -27,7 +27,8 @@ public class PersoonDAOImpl implements PersoonDAO {
    public List<Persoon> getAllPersonen() {
       List<Persoon> persoonList = new ArrayList<>();
       try {
-         PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, " + "geboortedatum, adres_id from persoon");
+         PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, " 
+                              + "geboortedatum, adres_id from persoon");
          ResultSet rs = st.executeQuery();
          while (rs.next()) {
             Persoon persoon = new Persoon();
@@ -103,7 +104,7 @@ public class PersoonDAOImpl implements PersoonDAO {
          if (persoon.getAdres() != null) {
             st.setInt(5, persoon.getAdres().getId());
          } else {
-            st.setNull(5, Types.JAVA_OBJECT);
+            st.setNull(5, Types.INTEGER);
          }
          st.executeUpdate();
 
@@ -122,7 +123,8 @@ public class PersoonDAOImpl implements PersoonDAO {
    public Persoon readPersoon(int id) {
       Persoon persoon = new Persoon();
       try {
-         PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, geboortedatum" + "from persoon where id = ?");
+         PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, geboortedatum" 
+                                 + "from persoon where id = ?");
          st.setInt(1, id);
          ResultSet rs = st.executeQuery();
          if (rs.next()) {

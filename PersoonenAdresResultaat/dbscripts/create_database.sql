@@ -43,8 +43,8 @@ CREATE TABLE `persoon` (
     REFERENCES `adres` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `Unique_Person`
-  	UNIQUE (voornaam, achternaam, tussenvoegsel, geboortedatum)
+  CONSTRAINT `Unique_Persoon`
+  	UNIQUE (voornaam, achternaam, tussenvoegsel, geboortedatum, adres_id)
 );
 --
 -- Table structure for table `resultaat`
