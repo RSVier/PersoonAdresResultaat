@@ -90,6 +90,7 @@ public class AdresDAOImpl implements AdresDAO {
          rs = st.getGeneratedKeys();
          if (rs.next()) {
             id = rs.getInt(1);
+            adres.setId(id);
          }
       } catch (SQLException ex) {
          ex.printStackTrace();
@@ -99,13 +100,14 @@ public class AdresDAOImpl implements AdresDAO {
 
    @Override
    public Adres readAdres(int id) {
-      Adres adres = new Adres();
+      Adres adres = null;
       try {
          PreparedStatement st = connection.prepareStatement("select id, straatnaam, huisnummer, toevoeging, postcode, woonplaats " 
                               + "from adres where id = ?");
          st.setInt(1, id);
          ResultSet rs = st.executeQuery();
          if (rs.next()) {
+        	adres = new Adres(); 
             adres.setId(rs.getInt(1));
             adres.setStraatnaam(rs.getString(2));
             adres.setHuisnummer(rs.getInt(3));

@@ -112,6 +112,7 @@ public class PersoonDAOImpl implements PersoonDAO {
          rs = st.getGeneratedKeys();
          if (rs.next()){
             id = rs.getInt(1);
+            persoon.setId(id);
          }
       } catch (SQLException ex) {
          ex.printStackTrace();
@@ -123,7 +124,7 @@ public class PersoonDAOImpl implements PersoonDAO {
    public Persoon readPersoon(int id) {
       Persoon persoon = new Persoon();
       try {
-         PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, geboortedatum" 
+         PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, geboortedatum, adres_id " 
                                  + "from persoon where id = ?");
          st.setInt(1, id);
          ResultSet rs = st.executeQuery();
@@ -146,7 +147,7 @@ public class PersoonDAOImpl implements PersoonDAO {
             // get Resultaten
             ResultaatDAO resultaatDao = factory.getResultaatDAO();
             List<Resultaat> listResultaat = resultaatDao.getAllResultaten(persoonId);
-            Resultaat[] resultaten = (Resultaat[]) listResultaat.toArray();
+            Resultaat[] resultaten = (Resultaat[]) listResultaat.toArray(new Resultaat[]{});
             persoon.setResultaten(resultaten);
          }
       } catch (SQLException ex) {

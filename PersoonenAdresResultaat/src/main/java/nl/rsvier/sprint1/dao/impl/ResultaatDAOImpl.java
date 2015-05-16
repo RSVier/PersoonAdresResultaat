@@ -45,7 +45,8 @@ public class ResultaatDAOImpl implements ResultaatDAO {
    public List<Resultaat> getAllResultaten(int persoonId) {
       List<Resultaat> resultaten = new ArrayList<>();
       try {
-         PreparedStatement st = connection.prepareStatement("select id, modulenaam, resultaat, voldoende, persoon_id " + "from resultaat where person_id = ?");
+         PreparedStatement st = connection.prepareStatement("select id, modulenaam, resultaat, voldoende, persoon_id " + 
+        		 												"from resultaat where persoon_id = ?");
          st.setInt(1, persoonId);
          ResultSet rs = st.executeQuery();
          while (rs.next()) {
