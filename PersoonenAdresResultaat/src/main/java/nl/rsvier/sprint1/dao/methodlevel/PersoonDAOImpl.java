@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.PersoonDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.domain.Adres;
 import nl.rsvier.sprint1.domain.Persoon;
 
-public class PersoonDAOImpl implements PersoonDAO {
+public class PersoonDAOImpl implements GenericDAO<Persoon> {
 
    private DataSource source;
 
@@ -20,32 +20,32 @@ public class PersoonDAOImpl implements PersoonDAO {
    }
 
    @Override
-   public List<Persoon> getAllPersonen() {
+   public List<Persoon> getAll() {
       // TODO Auto-generated method stub
       return null;
    }
 
    @Override
-   public void updatePersoon(Persoon persoon) {
+   public void update(Persoon persoon) {
       // TODO Auto-generated method stub
 
    }
 
    @Override
-   public void deletePersoon(Persoon persoon) {
+   public void delete(Persoon persoon) {
       // TODO Auto-generated method stub
 
    }
 
    @Override
-   public int createPersoon(Persoon persoon) {
+   public int create(Persoon persoon) {
       int id = -1;
       Connection conn = source.getConnection();
       String sql = "insert into persoon (voornaam, achternaam, tussenvoegsel, geboortedatum, idAdres) values (?, ?, ?, ?, ?)";
 
       // voeg eerst adres toe aan DB
       Adres adres = persoon.getAdres();
-      new AdresDAOImpl(source).createAdres(adres);
+      new AdresDAOImpl(source).create(adres);
 
       try (PreparedStatement prstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -66,7 +66,7 @@ public class PersoonDAOImpl implements PersoonDAO {
    }
 
    @Override
-   public Persoon readPersoon(int id) {
+   public Persoon read(int id) {
       Persoon persoon = new Persoon();
       persoon.setId(id);
 
@@ -80,7 +80,7 @@ public class PersoonDAOImpl implements PersoonDAO {
             persoon.setAchternaam(rs.getString(2));
             persoon.setTussenvoegsel(rs.getString(3));
             persoon.setGeboortedatum(rs.getString(4));
-            persoon.setAdres(new AdresDAOImpl(source).readAdres(rs.getInt(5)));
+            persoon.setAdres(new AdresDAOImpl(source).read(rs.getInt(5)));
          }
          
       } catch (SQLException e) {

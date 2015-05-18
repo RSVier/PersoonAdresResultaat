@@ -1,11 +1,13 @@
 package nl.rsvier.sprint1.dao.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.AdresDAO;
-import nl.rsvier.sprint1.dao.PersoonDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.dao.ResultaatDAO;
 import nl.rsvier.sprint1.dao.impl.RsvierDAOFactory;
 import nl.rsvier.sprint1.domain.Adres;
@@ -18,8 +20,8 @@ import org.junit.Test;
 
 public class ResultaatDAOTest {
 	private ResultaatDAO resultaatDao;
-	private PersoonDAO persoonDao;
-	private AdresDAO adresDao;
+	private GenericDAO<Persoon> persoonDao;
+	private GenericDAO<Adres> adresDao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -46,16 +48,16 @@ public class ResultaatDAOTest {
 		Persoon persoon = createPersoon();
 		int persoonId = persoon.getId();
 		resultaat.setPersoonId(persoonId);
-		int resultaatId = resultaatDao.createResultaat(resultaat);
+		int resultaatId = resultaatDao.create(resultaat);
 		
-		Resultaat resultaat1 = resultaatDao.readResultaat(resultaatId);
+		Resultaat resultaat1 = resultaatDao.read(resultaatId);
 		assertNotNull("resultaat from database is not null", resultaat1);
 		assertEquals("modulenaam from database is not as expected", resultaat.getModulenaam(), resultaat1.getModulenaam());
 		assertEquals("resultaat from database is not as expacted", resultaat.getResultaat(), resultaat1.getResultaat(), 0.01);
 		assertEquals("persoon's id is not as expected", resultaat.getPersoonId(), resultaat1.getPersoonId());
 		
-		resultaatDao.deleteResultaat(resultaat);
-		persoonDao.deletePersoon(persoon);
+		resultaatDao.delete(resultaat);
+		persoonDao.delete(persoon);
 	}
 	
 	@Test
@@ -68,22 +70,22 @@ public class ResultaatDAOTest {
 		Persoon persoon = createPersoon();
 		int persoonId = persoon.getId();
 		resultaat.setPersoonId(persoonId);
-		int resultaatId = resultaatDao.createResultaat(resultaat);
+		int resultaatId = resultaatDao.create(resultaat);
 		
 		resultaat.setModulenaam("mod2");
 		resultaat.setResultaat(4.8f);
 		resultaat.setVoldoende(false);
 		
-		resultaatDao.updateResultaat(resultaat);
+		resultaatDao.update(resultaat);
 		
-		Resultaat resultaat1 = resultaatDao.readResultaat(resultaatId);
+		Resultaat resultaat1 = resultaatDao.read(resultaatId);
 		assertNotNull("resultaat from database is not null", resultaat1);
 		assertEquals("modulenaam from database is not as expected", resultaat.getModulenaam(), resultaat1.getModulenaam());
 		assertEquals("resultaat from database is not as expacted", resultaat.getResultaat(), resultaat1.getResultaat(), 0.01);
 		assertEquals("persoon's id is not as expected", resultaat.getPersoonId(), resultaat1.getPersoonId());
 		
-		resultaatDao.deleteResultaat(resultaat);
-		persoonDao.deletePersoon(persoon);
+		resultaatDao.delete(resultaat);
+		persoonDao.delete(persoon);
 	}
 	
 	@Test
@@ -96,13 +98,13 @@ public class ResultaatDAOTest {
 		Persoon persoon = createPersoon();
 		int persoonId = persoon.getId();
 		resultaat.setPersoonId(persoonId);
-		int resultaatId = resultaatDao.createResultaat(resultaat);
+		int resultaatId = resultaatDao.create(resultaat);
 		
-		resultaatDao.deleteResultaat(resultaat);
-		Resultaat resultaat1 = resultaatDao.readResultaat(resultaatId);
+		resultaatDao.delete(resultaat);
+		Resultaat resultaat1 = resultaatDao.read(resultaatId);
 		assertNull("resultaat has not been deleted fro database", resultaat1);
 		
-		persoonDao.deletePersoon(persoon);
+		persoonDao.delete(persoon);
 	}
 	
 	@Test
@@ -115,23 +117,23 @@ public class ResultaatDAOTest {
 		Persoon persoon = createPersoon();
 		int persoonId = persoon.getId();
 		resultaat.setPersoonId(persoonId);
-		int resultaatId = resultaatDao.createResultaat(resultaat);
+		int resultaatId = resultaatDao.create(resultaat);
 		
 		Resultaat resultaat1 = new Resultaat();
 		resultaat1.setModulenaam("mod2");
 		resultaat1.setResultaat(7.0f);
 		resultaat1.setVoldoende(true);
 		resultaat1.setPersoonId(persoonId);
-		int resultaat1Id = resultaatDao.createResultaat(resultaat1);
+		int resultaat1Id = resultaatDao.create(resultaat1);
 		
 		Resultaat resultaat2 = new Resultaat();
 		resultaat2.setModulenaam("mod3");
 		resultaat2.setResultaat(4.0f);
 		resultaat2.setVoldoende(false);
 		resultaat2.setPersoonId(persoonId);
-		int resultaat2Id = resultaatDao.createResultaat(resultaat2);
+		int resultaat2Id = resultaatDao.create(resultaat2);
 		
-		List<Resultaat> list = resultaatDao.getAllResultaten();
+		List<Resultaat> list = resultaatDao.getAll();
 		assertNotNull("list from database is null", list);
 		assertEquals("list's size is not as expected", list.size(), 3);
 		
@@ -141,11 +143,11 @@ public class ResultaatDAOTest {
 						rstId == resultaatId || rstId == resultaat1Id || rstId == resultaat2Id);
 		}
 		
-		resultaatDao.deleteResultaat(resultaat);
-		resultaatDao.deleteResultaat(resultaat1);
-		resultaatDao.deleteResultaat(resultaat2);
+		resultaatDao.delete(resultaat);
+		resultaatDao.delete(resultaat1);
+		resultaatDao.delete(resultaat2);
 		
-		persoonDao.deletePersoon(persoon);
+		persoonDao.delete(persoon);
 	}
 	
 	@Test
@@ -158,14 +160,14 @@ public class ResultaatDAOTest {
 		Persoon persoon = createPersoon();
 		int persoonId = persoon.getId();
 		resultaat.setPersoonId(persoonId);
-		int resultaatId = resultaatDao.createResultaat(resultaat);
+		int resultaatId = resultaatDao.create(resultaat);
 		
 		Resultaat resultaat1 = new Resultaat();
 		resultaat1.setModulenaam("mod2");
 		resultaat1.setResultaat(7.0f);
 		resultaat1.setVoldoende(true);
 		resultaat1.setPersoonId(persoonId);
-		int resultaat1Id = resultaatDao.createResultaat(resultaat1);
+		int resultaat1Id = resultaatDao.create(resultaat1);
 		
 		Resultaat resultaat2 = new Resultaat();
 		resultaat2.setModulenaam("mod1");
@@ -175,9 +177,9 @@ public class ResultaatDAOTest {
 		Persoon persoon1 = createPersoon();
 		int persoon1Id = persoon1.getId();
 		resultaat2.setPersoonId(persoon1Id);
-		int resultaat2Id = resultaatDao.createResultaat(resultaat2);
+		int resultaat2Id = resultaatDao.create(resultaat2);
 		
-		List<Resultaat> list = resultaatDao.getAllResultaten(persoonId);
+		List<Resultaat> list = resultaatDao.getAll(persoonId);
 		assertNotNull("list from database is null", list);
 		assertEquals("list's size is not as expected", list.size(), 2);
 		for (Resultaat rst: list) {
@@ -185,7 +187,7 @@ public class ResultaatDAOTest {
 			assertTrue("resultaat from database is not as expected", rstId == resultaatId || rstId == resultaat1Id);
 		}
 		
-		List<Resultaat> list2 = resultaatDao.getAllResultaten(persoon1Id);
+		List<Resultaat> list2 = resultaatDao.getAll(persoon1Id);
 		assertNotNull("list from database is null", list2);
 		assertEquals("list's size is not as expected", list2.size(), 1);
 		for (Resultaat rst: list2) {
@@ -193,11 +195,11 @@ public class ResultaatDAOTest {
 			assertTrue("resultaat from database is not as expected", rstId == resultaat2Id);
 		}
 		
-		resultaatDao.deleteResultaat(resultaat);
-		resultaatDao.deleteResultaat(resultaat1);
-		resultaatDao.deleteResultaat(resultaat2);
-		persoonDao.deletePersoon(persoon);
-		persoonDao.deletePersoon(persoon1);
+		resultaatDao.delete(resultaat);
+		resultaatDao.delete(resultaat1);
+		resultaatDao.delete(resultaat2);
+		persoonDao.delete(persoon);
+		persoonDao.delete(persoon1);
 
 	}
 	
@@ -214,10 +216,10 @@ public class ResultaatDAOTest {
 		adres.setHuisnummer(9);
 		adres.setToevoeging("A");
 		adres.setPostcode("2497 CN");
-		adresDao.createAdres(adres);
+		adresDao.create(adres);
 		
 		persoon.setAdres(adres);
-		persoonDao.createPersoon(persoon);
+		persoonDao.create(persoon);
 
 		return persoon;
 	}

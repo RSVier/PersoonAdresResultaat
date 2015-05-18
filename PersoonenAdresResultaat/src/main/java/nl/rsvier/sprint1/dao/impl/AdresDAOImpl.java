@@ -8,10 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.AdresDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.domain.Adres;
 
-public class AdresDAOImpl implements AdresDAO {
+public class AdresDAOImpl implements GenericDAO<Adres> {
 
    private Connection connection;
 
@@ -20,7 +20,7 @@ public class AdresDAOImpl implements AdresDAO {
    }
 
    @Override
-   public List<Adres> getAllAdressen() {
+   public List<Adres> getAll() {
       List<Adres> adresList = new ArrayList<>();
       try {
          PreparedStatement st = connection.prepareStatement("select id, straatnaam, huisnummer, toevoeging, " 
@@ -45,7 +45,7 @@ public class AdresDAOImpl implements AdresDAO {
    }
 
    @Override
-   public void updateAdres(Adres adres) {
+   public void update(Adres adres) {
       try {
          PreparedStatement st = connection.prepareStatement("update adres set straatnaam = ?, huisnummer = ?, "
                + "toevoeging = ?, postcode = ?, woonplaats = ? where id = ?");
@@ -62,7 +62,7 @@ public class AdresDAOImpl implements AdresDAO {
    }
 
    @Override
-   public void deleteAdres(Adres adres) {
+   public void delete(Adres adres) {
       try {
          PreparedStatement st = connection.prepareStatement("delete from adres where id = ?");
          st.setInt(1, adres.getId());
@@ -73,7 +73,7 @@ public class AdresDAOImpl implements AdresDAO {
    }
 
    @Override
-   public int createAdres(Adres adres) {
+   public int create(Adres adres) {
       ResultSet rs = null;
       int id = -1;
       try {
@@ -99,7 +99,7 @@ public class AdresDAOImpl implements AdresDAO {
    }
 
    @Override
-   public Adres readAdres(int id) {
+   public Adres read(int id) {
       Adres adres = null;
       try {
          PreparedStatement st = connection.prepareStatement("select id, straatnaam, huisnummer, toevoeging, postcode, woonplaats " 

@@ -2,13 +2,12 @@ package nl.rsvier.sprint1.dao.test;
 
 import java.util.List;
 
-import nl.rsvier.sprint1.domain.Adres;
-import nl.rsvier.sprint1.dao.AdresDAO;
-import nl.rsvier.sprint1.domain.Persoon;
-import nl.rsvier.sprint1.dao.PersoonDAO;
-import nl.rsvier.sprint1.domain.Resultaat;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.dao.ResultaatDAO;
 import nl.rsvier.sprint1.dao.impl.RsvierDAOFactory;
+import nl.rsvier.sprint1.domain.Adres;
+import nl.rsvier.sprint1.domain.Persoon;
+import nl.rsvier.sprint1.domain.Resultaat;
 
 public class DAOFactoryTest {
 
@@ -16,8 +15,8 @@ public class DAOFactoryTest {
       RsvierDAOFactory factory = RsvierDAOFactory.getInstance();
       factory.openConnection();
 
-      PersoonDAO persoonDao = factory.getPersoonDAO();
-      AdresDAO adresDao = factory.getAdresDAO();
+      GenericDAO<Persoon> persoonDao = factory.getPersoonDAO();
+      GenericDAO<Adres> adresDao = factory.getAdresDAO();
       ResultaatDAO resultaatDao = factory.getResultaatDAO();
 
       Persoon newPersoon = new Persoon();
@@ -34,10 +33,10 @@ public class DAOFactoryTest {
       adres1.setHuisnummer(10);
       adres1.setPostcode("1212 CC");
       adres1.setToevoeging("b");
-      adresDao.createAdres(adres1);
+      adresDao.create(adres1);
 
       newPersoon.setAdres(adres1);
-      persoonDao.createPersoon(newPersoon);
+      persoonDao.create(newPersoon);
 
       Resultaat resultaat1 = new Resultaat();
       resultaat1.setId(12);
@@ -45,7 +44,7 @@ public class DAOFactoryTest {
       resultaat1.setResultaat(6.4f);
       resultaat1.setVoldoende(true);
       resultaat1.setPersoonId(1113);
-      resultaatDao.createResultaat(resultaat1);
+      resultaatDao.create(resultaat1);
 
       System.out.println("Done.");
 
@@ -56,8 +55,8 @@ public class DAOFactoryTest {
       RsvierDAOFactory factory = RsvierDAOFactory.getInstance();
       factory.openConnection();
 
-      PersoonDAO persoonDao = factory.getPersoonDAO();
-      AdresDAO adresDao = factory.getAdresDAO();
+      GenericDAO<Persoon> persoonDao = factory.getPersoonDAO();
+      GenericDAO<Adres> adresDao = factory.getAdresDAO();
 
       Adres adres1 = new Adres();
       adres1.setWoonplaats("Amsterdam");
@@ -65,7 +64,7 @@ public class DAOFactoryTest {
       adres1.setHuisnummer(11);
       adres1.setPostcode("3312 CN");
       adres1.setToevoeging("a");
-      adresDao.createAdres(adres1);
+      adresDao.create(adres1);
 
       System.out.println("Adres ID=" + adres1.getId());
 
@@ -76,7 +75,7 @@ public class DAOFactoryTest {
       newPersoon.setGeboortedatum("13-12-2000");
       newPersoon.setAdres(adres1);
 
-      persoonDao.createPersoon(newPersoon);
+      persoonDao.create(newPersoon);
 
       factory.closeConnection();
    }
@@ -85,8 +84,8 @@ public class DAOFactoryTest {
       RsvierDAOFactory factory = RsvierDAOFactory.getInstance();
       factory.openConnection();
 
-      AdresDAO adresDao = factory.getAdresDAO();
-      PersoonDAO persoonDao = factory.getPersoonDAO();
+      GenericDAO<Adres> adresDao = factory.getAdresDAO();
+      GenericDAO<Persoon> persoonDao = factory.getPersoonDAO();
 
       // add adres
       Adres newAdres = new Adres();
@@ -96,11 +95,11 @@ public class DAOFactoryTest {
       newAdres.setPostcode("3452DM");
       newAdres.setToevoeging("d");
 
-      newAdres.setId(adresDao.createAdres(newAdres));
+      newAdres.setId(adresDao.create(newAdres));
       System.out.println("ID of newly created Adres:" + newAdres.getId());
 
       // get all adressen
-      List<Adres> adressen = adresDao.getAllAdressen();
+      List<Adres> adressen = adresDao.getAll();
       System.out.println("Adressen: " + adressen.size());
       System.out.println(adressen);
       Adres adr = adressen.get(0);

@@ -3,8 +3,7 @@ package nl.rsvier.sprint1.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.AdresDAO;
-import nl.rsvier.sprint1.dao.PersoonDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.dao.ResultaatDAO;
 import nl.rsvier.sprint1.dao.impl.RsvierDAOFactory;
 import nl.rsvier.sprint1.domain.Adres;
@@ -27,8 +26,8 @@ public class DataGenerator {
 		factory.openConnection();
 		factory.startTransaction();
 		
-		PersoonDAO persoonDao = factory.getPersoonDAO();
-		AdresDAO adresDao = factory.getAdresDAO();
+		GenericDAO<Persoon> persoonDao = factory.getPersoonDAO();
+		GenericDAO<Adres> adresDao = factory.getAdresDAO();
 		ResultaatDAO resultaatDao = factory.getResultaatDAO();
 		
 		List<Adres> adresList = new ArrayList<>();
@@ -38,7 +37,7 @@ public class DataGenerator {
 			adres.setWoonplaats(WOONPLAATS[i % 10]);
 			adres.setStraatnaam(STRAATNAAM[i % 9]);
 			adres.setPostcode("1234 AS");
-			int adresId = adresDao.createAdres(adres);
+			int adresId = adresDao.create(adres);
 			adres.setId(adresId);
 			
 			adresList.add(adres);
@@ -54,7 +53,7 @@ public class DataGenerator {
 			
 			persoon.setAdres(adresList.get(i / 4));
 			
-			int persoonId = persoonDao.createPersoon(persoon);
+			int persoonId = persoonDao.create(persoon);
 			persoon.setId(persoonId);
 			persoonList.add(persoon);
 		}
@@ -72,7 +71,7 @@ public class DataGenerator {
 				resultaat.setResultaat((float)(Math.random() * 5));
 			}
 			resultaat.setPersoonId(persoon.getId());
-			resultaatDao.createResultaat(resultaat);
+			resultaatDao.create(resultaat);
 		}
 		System.out.println("Persons are assigned with results.");
 		

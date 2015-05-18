@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import nl.rsvier.sprint1.dao.AdresDAO;
-import nl.rsvier.sprint1.dao.PersoonDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.dao.ResultaatDAO;
+import nl.rsvier.sprint1.domain.Adres;
+import nl.rsvier.sprint1.domain.Persoon;
 
 public class RsvierDAOFactory {
 	
@@ -33,11 +34,11 @@ public class RsvierDAOFactory {
 		return instance;
 	}
 	
-	public PersoonDAO getPersoonDAO() {
+	public GenericDAO<Persoon> getPersoonDAO() {
 		return new PersoonDAOImpl(connection);
 	}
 	
-	public AdresDAO getAdresDAO() {
+	public GenericDAO<Adres> getAdresDAO() {
 		return new AdresDAOImpl(connection);
 	}
 	

@@ -1,11 +1,13 @@
 package nl.rsvier.sprint1.dao.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.AdresDAO;
-import nl.rsvier.sprint1.dao.PersoonDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.dao.impl.RsvierDAOFactory;
 import nl.rsvier.sprint1.domain.Adres;
 import nl.rsvier.sprint1.domain.Persoon;
@@ -15,8 +17,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PersoonDAOTest {
-	private PersoonDAO persoonDao;
-	private AdresDAO adresDao;
+	private GenericDAO<Persoon> persoonDao;
+	private GenericDAO<Adres> adresDao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -42,9 +44,9 @@ public class PersoonDAOTest {
 		
 		Adres adres = createAdres();
 		persoon.setAdres(adres);
-		int persoonId = persoonDao.createPersoon(persoon);
+		int persoonId = persoonDao.create(persoon);
 		
-		Persoon persoon1 = persoonDao.readPersoon(persoonId);
+		Persoon persoon1 = persoonDao.read(persoonId);
 		
 		assertNotNull("persoon from database is null", persoon1);
 		
@@ -57,8 +59,8 @@ public class PersoonDAOTest {
 		assertEquals("toessenvoegsel is not as expected", persoon.getTussenvoegsel(), persoon1.getTussenvoegsel());
 		assertEquals("geboortedatum is not as expected", persoon.getGeboortedatum(), persoon1.getGeboortedatum());
 		
-		persoonDao.deletePersoon(persoon);
-		adresDao.deleteAdres(adres);
+		persoonDao.delete(persoon);
+		adresDao.delete(adres);
 	}
 	
 	@Test
@@ -71,7 +73,7 @@ public class PersoonDAOTest {
 		
 		Adres adres = createAdres();
 		persoon.setAdres(adres);
-		int persoonId = persoonDao.createPersoon(persoon);
+		int persoonId = persoonDao.create(persoon);
 		
 		persoon.setVoornaam("Hanna");
 		persoon.setAchternaam("Postma");
@@ -80,9 +82,9 @@ public class PersoonDAOTest {
 		Adres adres1 = createAdres();
 		persoon.setAdres(adres1);
 		
-		persoonDao.updatePersoon(persoon);
+		persoonDao.update(persoon);
 		
-		Persoon persoon1 = persoonDao.readPersoon(persoonId);
+		Persoon persoon1 = persoonDao.read(persoonId);
 		assertNotNull("persoon from database is null", persoon1);
 		assertEquals("voornaam is not as expected", persoon.getVoornaam(), persoon1.getVoornaam());
 		assertEquals("achternaam is not as expected", persoon.getAchternaam(), persoon1.getAchternaam());
@@ -90,8 +92,8 @@ public class PersoonDAOTest {
 		assertEquals("geboortedatun is not as expected", persoon.getGeboortedatum(), persoon1.getGeboortedatum());
 		assertEquals("adres id is not as expected", persoon.getAdres().getId(), persoon1.getAdres().getId());
 		
-		persoonDao.deletePersoon(persoon);
-		adresDao.deleteAdres(adres);
+		persoonDao.delete(persoon);
+		adresDao.delete(adres);
 	}
 	
 	@Test
@@ -104,13 +106,13 @@ public class PersoonDAOTest {
 		
 		Adres adres = createAdres();
 		persoon.setAdres(adres);
-		int persoonId = persoonDao.createPersoon(persoon);
+		int persoonId = persoonDao.create(persoon);
 		
-		persoonDao.deletePersoon(persoon);
-		Persoon persoon1 = persoonDao.readPersoon(persoonId);
+		persoonDao.delete(persoon);
+		Persoon persoon1 = persoonDao.read(persoonId);
 		assertNull("persoon has not been deleted from the database",persoon1);
 		
-		adresDao.deleteAdres(adres);
+		adresDao.delete(adres);
 	}
 	
 	@Test
@@ -123,7 +125,7 @@ public class PersoonDAOTest {
 		
 		Adres adres = createAdres();
 		persoon.setAdres(adres);
-		int persoonId = persoonDao.createPersoon(persoon);
+		int persoonId = persoonDao.create(persoon);
 		
 		Persoon persoon1 = new Persoon();
 		persoon1.setVoornaam("Martijn");
@@ -131,7 +133,7 @@ public class PersoonDAOTest {
 		persoon1.setAchternaam("Vos");
 		persoon1.setGeboortedatum("01-03-1990");
 		persoon1.setAdres(adres);
-		int persoon1Id = persoonDao.createPersoon(persoon1);
+		int persoon1Id = persoonDao.create(persoon1);
 		
 		Persoon persoon2 = new Persoon();
 		persoon2.setVoornaam("Wim");
@@ -139,7 +141,7 @@ public class PersoonDAOTest {
 		persoon2.setAchternaam("Verhuij");
 		persoon2.setGeboortedatum("01-03-1980");
 		persoon2.setAdres(adres);
-		int persoon2Id = persoonDao.createPersoon(persoon2);
+		int persoon2Id = persoonDao.create(persoon2);
 		
 		Persoon persoon3 = new Persoon();
 		persoon3.setVoornaam("Vera");
@@ -147,9 +149,9 @@ public class PersoonDAOTest {
 		persoon3.setAchternaam("Vos");
 		persoon3.setGeboortedatum("01-03-1991");
 		persoon3.setAdres(adres);
-		int persoon3Id = persoonDao.createPersoon(persoon3);
+		int persoon3Id = persoonDao.create(persoon3);
 		
-		List<Persoon> list = persoonDao.getAllPersonen();
+		List<Persoon> list = persoonDao.getAll();
 		assertNotNull("list from database is null", list);
 		assertEquals("list's size is not as expected", list.size(), 4);
 		
@@ -159,11 +161,11 @@ public class PersoonDAOTest {
 					prsId == persoonId || prsId == persoon1Id || prsId == persoon2Id || prsId == persoon3Id);
 		}
 		
-		persoonDao.deletePersoon(persoon);
-		persoonDao.deletePersoon(persoon1);
-		persoonDao.deletePersoon(persoon2);
-		persoonDao.deletePersoon(persoon3);
-		adresDao.deleteAdres(adres);
+		persoonDao.delete(persoon);
+		persoonDao.delete(persoon1);
+		persoonDao.delete(persoon2);
+		persoonDao.delete(persoon3);
+		adresDao.delete(adres);
 	}
 	
 	private Adres createAdres() {
@@ -173,7 +175,7 @@ public class PersoonDAOTest {
 		adres.setHuisnummer(9);
 		adres.setToevoeging("A");
 		adres.setPostcode("2497 CN");
-		adresDao.createAdres(adres);
+		adresDao.create(adres);
 		return adres;
 	}
 

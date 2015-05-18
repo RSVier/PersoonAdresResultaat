@@ -20,7 +20,7 @@ public class ResultaatDAOImpl implements ResultaatDAO {
    }
 
    @Override
-   public List<Resultaat> getAllResultaten() {
+   public List<Resultaat> getAll() {
       List<Resultaat> resultaten = new ArrayList<>();
       try {
          PreparedStatement st = connection.prepareStatement("select id, modulenaam, resultaat, voldoende, persoon_id from resultaat");
@@ -42,7 +42,7 @@ public class ResultaatDAOImpl implements ResultaatDAO {
    }
 
    @Override
-   public List<Resultaat> getAllResultaten(int persoonId) {
+   public List<Resultaat> getAll(int persoonId) {
       List<Resultaat> resultaten = new ArrayList<>();
       try {
          PreparedStatement st = connection.prepareStatement("select id, modulenaam, resultaat, voldoende, persoon_id " + 
@@ -65,7 +65,7 @@ public class ResultaatDAOImpl implements ResultaatDAO {
    }
 
    @Override
-   public void updateResultaat(Resultaat resultaat) {
+   public void update(Resultaat resultaat) {
       try {
          PreparedStatement st = connection.prepareStatement("update resultaat set modulenaam = ?, resultaat = ?, "
                + " voldoende = ?, persoon_id = ? where id = ?");
@@ -81,7 +81,7 @@ public class ResultaatDAOImpl implements ResultaatDAO {
    }
 
    @Override
-   public void deleteResultaat(Resultaat resultaat) {
+   public void delete(Resultaat resultaat) {
       try {
          PreparedStatement st = connection.prepareStatement("delete from resultaat where id = ?");
          st.setInt(1, resultaat.getId());
@@ -93,7 +93,7 @@ public class ResultaatDAOImpl implements ResultaatDAO {
    }
 
    @Override
-   public int createResultaat(Resultaat resultaat) {
+   public int create(Resultaat resultaat) {
       ResultSet rs = null;
       int id = -1;
       try {
@@ -119,7 +119,7 @@ public class ResultaatDAOImpl implements ResultaatDAO {
    }
 
    @Override
-   public Resultaat readResultaat(int id) {
+   public Resultaat read(int id) {
       Resultaat resultaat = null;
       try {
          PreparedStatement st = connection.prepareStatement("select id, modulenaam, resultaat, voldoende, persoon_id from resultaat " + " where id = ?");

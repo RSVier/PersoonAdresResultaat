@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.AdresDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.domain.Adres;
 
-public class AdresDAOImpl implements AdresDAO {
+public class AdresDAOImpl implements GenericDAO<Adres> {
 
    private DataSource source;
 
@@ -19,25 +19,25 @@ public class AdresDAOImpl implements AdresDAO {
    }
 
    @Override
-   public List<Adres> getAllAdressen() {
+   public List<Adres> getAll() {
       // TODO Auto-generated method stub
       return null;
    }
 
    @Override
-   public void updateAdres(Adres adres) {
+   public void update(Adres adres) {
       // TODO Auto-generated method stub
 
    }
 
    @Override
-   public void deleteAdres(Adres adres) {
+   public void delete(Adres adres) {
       // TODO Auto-generated method stub
 
    }
 
    @Override
-   public int createAdres(Adres adres) {
+   public int create(Adres adres) {
       // TODO unfinished method
       int id = 12;
       ResultSet rs = null;
@@ -64,7 +64,7 @@ public class AdresDAOImpl implements AdresDAO {
    }
 
    @Override
-   public Adres readAdres(int id) {
+   public Adres read(int id) {
 
       return null;
    }

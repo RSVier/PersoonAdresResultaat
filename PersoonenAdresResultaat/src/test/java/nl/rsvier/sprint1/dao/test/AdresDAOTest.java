@@ -1,10 +1,13 @@
 package nl.rsvier.sprint1.dao.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.AdresDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.dao.impl.RsvierDAOFactory;
 import nl.rsvier.sprint1.domain.Adres;
 
@@ -13,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AdresDAOTest {
-	private AdresDAO adresDao;
+	private GenericDAO<Adres> adresDao;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -36,9 +39,9 @@ public class AdresDAOTest {
 		adres.setHuisnummer(9);
 		adres.setToevoeging("A");
 		adres.setPostcode("2497 CN");
-		int adresID = adresDao.createAdres(adres);
+		int adresID = adresDao.create(adres);
 		
-		Adres adres1 = adresDao.readAdres(adresID);
+		Adres adres1 = adresDao.read(adresID);
 		
 		assertNotNull("address from database is null", adres1);
 		
@@ -48,7 +51,7 @@ public class AdresDAOTest {
 		assertEquals("toevoeging is not as expected", adres.getToevoeging(), adres.getToevoeging());
 		assertEquals("postcode is not as expected", adres.getPostcode(), adres1.getPostcode());
 		
-		adresDao.deleteAdres(adres);
+		adresDao.delete(adres);
 	}	
 	
 	@Test
@@ -59,11 +62,11 @@ public class AdresDAOTest {
 		adres.setHuisnummer(2);
 		adres.setToevoeging("B");
 		adres.setPostcode("2497 SC");
-		int adresID = adresDao.createAdres(adres);
+		int adresID = adresDao.create(adres);
 		
-		adresDao.deleteAdres(adres);
+		adresDao.delete(adres);
 		
-		Adres adres1 = adresDao.readAdres(adresID);
+		Adres adres1 = adresDao.read(adresID);
 		assertNull("address has not been deleted from database", adres1);
 	}
 	
@@ -75,7 +78,7 @@ public class AdresDAOTest {
 		adres.setHuisnummer(2);
 		adres.setToevoeging("B");
 		adres.setPostcode("2497 SC");
-		int adresID = adresDao.createAdres(adres);
+		int adresID = adresDao.create(adres);
 		
 		adres.setWoonplaats("Den Haag");
 		adres.setStraatnaam("Bleriosingel");
@@ -83,9 +86,9 @@ public class AdresDAOTest {
 		adres.setToevoeging("A");
 		adres.setPostcode("2498 MP");
 		
-		adresDao.updateAdres(adres);
+		adresDao.update(adres);
 		
-		Adres adres1 = adresDao.readAdres(adresID);
+		Adres adres1 = adresDao.read(adresID);
 		
 		assertNotNull("address from database is null", adres1);
 		
@@ -95,7 +98,7 @@ public class AdresDAOTest {
 		assertEquals("toevoeging is not as expected", adres.getToevoeging(), adres.getToevoeging());
 		assertEquals("postcode is not as expected", adres.getPostcode(), adres1.getPostcode());
 		
-		adresDao.deleteAdres(adres);
+		adresDao.delete(adres);
 	}
 	
 	@Test
@@ -106,7 +109,7 @@ public class AdresDAOTest {
 		adres.setHuisnummer(2);
 		adres.setToevoeging("B");
 		adres.setPostcode("2497 SC");
-		int adresID = adresDao.createAdres(adres);
+		int adresID = adresDao.create(adres);
 		
 		Adres adres1 = new Adres();
 		adres1.setWoonplaats("Nootdorp");
@@ -114,7 +117,7 @@ public class AdresDAOTest {
 		adres1.setHuisnummer(2);
 		adres1.setToevoeging("B");
 		adres1.setPostcode("2497 SC");
-		int adres1ID = adresDao.createAdres(adres1);
+		int adres1ID = adresDao.create(adres1);
 		
 		Adres adres2 = new Adres();
 		adres2.setWoonplaats("Nootdorp");
@@ -122,9 +125,9 @@ public class AdresDAOTest {
 		adres2.setHuisnummer(2);
 		adres2.setToevoeging("B");
 		adres2.setPostcode("2497 SC");
-		int adres2ID = adresDao.createAdres(adres2);
+		int adres2ID = adresDao.create(adres2);
 
-		List<Adres> list = adresDao.getAllAdressen();
+		List<Adres> list = adresDao.getAll();
 		
 		assertNotNull("list from database is null", list);
 		assertEquals("list's size is not as expected", list.size(), 3);
@@ -134,8 +137,8 @@ public class AdresDAOTest {
 			assertTrue("adres ID from the list is not as expected", adrId == adresID || adrId == adres1ID || adrId == adres2ID);
 		}
 		
-		adresDao.deleteAdres(adres);
-		adresDao.deleteAdres(adres1);
-		adresDao.deleteAdres(adres2);
+		adresDao.delete(adres);
+		adresDao.delete(adres1);
+		adresDao.delete(adres2);
 	}
 }

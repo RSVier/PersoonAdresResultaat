@@ -9,14 +9,13 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.rsvier.sprint1.dao.AdresDAO;
-import nl.rsvier.sprint1.dao.PersoonDAO;
+import nl.rsvier.sprint1.dao.GenericDAO;
 import nl.rsvier.sprint1.dao.ResultaatDAO;
 import nl.rsvier.sprint1.domain.Adres;
 import nl.rsvier.sprint1.domain.Persoon;
 import nl.rsvier.sprint1.domain.Resultaat;
 
-public class PersoonDAOImpl implements PersoonDAO {
+public class PersoonDAOImpl implements GenericDAO<Persoon> {
    private Connection connection;
 
    PersoonDAOImpl(Connection connection) {
@@ -24,7 +23,7 @@ public class PersoonDAOImpl implements PersoonDAO {
    }
 
    @Override
-   public List<Persoon> getAllPersonen() {
+   public List<Persoon> getAll() {
       List<Persoon> persoonList = new ArrayList<>();
       try {
          PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, " 
@@ -42,13 +41,13 @@ public class PersoonDAOImpl implements PersoonDAO {
             // get Adres
             int adresId = rs.getInt(6);
             RsvierDAOFactory factory = RsvierDAOFactory.getInstance();
-            AdresDAO adresDao = factory.getAdresDAO();
-            Adres adres = adresDao.readAdres(adresId);
+            GenericDAO<Adres> adresDao = factory.getAdresDAO();
+            Adres adres = adresDao.read(adresId);
             persoon.setAdres(adres);
 
             // get Resultaten
             ResultaatDAO resultaatDao = factory.getResultaatDAO();
-            List<Resultaat> listResultaat = resultaatDao.getAllResultaten(persoonId);
+            List<Resultaat> listResultaat = resultaatDao.getAll(persoonId);
             Resultaat[] resultaten = (Resultaat[]) listResultaat.toArray(new Resultaat[]{});
             persoon.setResultaten(resultaten);
 
@@ -61,7 +60,7 @@ public class PersoonDAOImpl implements PersoonDAO {
    }
 
    @Override
-   public void updatePersoon(Persoon persoon) {
+   public void update(Persoon persoon) {
       try {
          PreparedStatement st = connection.prepareStatement("update persoon set voornaam = ?, "
                + " achternaam = ?, tussenvoegsel = ?, geboortedatum = ?, adres_id = ? where id = ?");
@@ -78,7 +77,7 @@ public class PersoonDAOImpl implements PersoonDAO {
    }
 
    @Override
-   public void deletePersoon(Persoon persoon) {
+   public void delete(Persoon persoon) {
       try {
          PreparedStatement st = connection.prepareStatement("delete from persoon where id = ?");
          st.setInt(1, persoon.getId());
@@ -90,7 +89,7 @@ public class PersoonDAOImpl implements PersoonDAO {
    }
 
    @Override
-   public int createPersoon(Persoon persoon) {
+   public int create(Persoon persoon) {
       ResultSet rs = null;
       int id = -1;
       try {
@@ -121,7 +120,7 @@ public class PersoonDAOImpl implements PersoonDAO {
    }
 
    @Override
-   public Persoon readPersoon(int id) {
+   public Persoon read(int id) {
       Persoon persoon = null;
       try {
          PreparedStatement st = connection.prepareStatement("select id, voornaam, achternaam, tussenvoegsel, geboortedatum, adres_id " 
@@ -141,13 +140,13 @@ public class PersoonDAOImpl implements PersoonDAO {
             // get Adres
             int adresId = rs.getInt(6);
             RsvierDAOFactory factory = RsvierDAOFactory.getInstance();
-            AdresDAO adresDao = factory.getAdresDAO();
-            Adres adres = adresDao.readAdres(adresId);
+            GenericDAO<Adres> adresDao = factory.getAdresDAO();
+            Adres adres = adresDao.read(adresId);
             persoon.setAdres(adres);
 
             // get Resultaten
             ResultaatDAO resultaatDao = factory.getResultaatDAO();
-            List<Resultaat> listResultaat = resultaatDao.getAllResultaten(persoonId);
+            List<Resultaat> listResultaat = resultaatDao.getAll(persoonId);
             Resultaat[] resultaten = (Resultaat[]) listResultaat.toArray(new Resultaat[]{});
             persoon.setResultaten(resultaten);
          }
