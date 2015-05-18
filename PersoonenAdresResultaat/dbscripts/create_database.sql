@@ -29,7 +29,6 @@ CREATE TABLE `adres` (
 -- Table structure for table `persoon`
 --
 
-
 CREATE TABLE `persoon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `voornaam` varchar(100) NOT NULL,
@@ -46,6 +45,7 @@ CREATE TABLE `persoon` (
   CONSTRAINT `Unique_Persoon`
   	UNIQUE (voornaam, achternaam, tussenvoegsel, geboortedatum, adres_id)
 );
+
 --
 -- Table structure for table `resultaat`
 --

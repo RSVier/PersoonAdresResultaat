@@ -77,6 +77,7 @@ public class AdresDAOImpl implements GenericDAO<Adres> {
       ResultSet rs = null;
       int id = -1;
       try {
+         
          PreparedStatement st = connection.prepareStatement("insert ignore into adres (straatnaam, huisnummer, "
                + "toevoeging, postcode, woonplaats) values (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
          st.setString(1, adres.getStraatnaam());
@@ -85,8 +86,8 @@ public class AdresDAOImpl implements GenericDAO<Adres> {
          st.setString(4, adres.getPostcode());
          st.setString(5, adres.getWoonplaats());
          st.executeUpdate();
-         
-         //retrieve Unique ID for newly created address.
+
+         // retrieve Unique ID for newly created address.
          rs = st.getGeneratedKeys();
          if (rs.next()) {
             id = rs.getInt(1);
@@ -94,6 +95,35 @@ public class AdresDAOImpl implements GenericDAO<Adres> {
          }
       } catch (SQLException ex) {
          ex.printStackTrace();
+      }
+      return id;
+   }
+   
+   /**
+    * Retrieves the unique identifier for the adres object provided. Requires all fields of the adres object to be filled with valid data.
+    * @param adres 
+    * @return the ID associated with the adres. If the address is not found in the database, 0 is returned.
+    */
+   public int retrieveId(Adres adres) {
+      int id = adres.getId();
+      if (id != 0) { return id; }
+      ResultSet rs = null;
+
+      try {
+         PreparedStatement st = connection
+               .prepareStatement("select id from adres where (straatnaam = ? AND huisnummer = ? AND toevoeging = ? AND postcode = ? AND woonplaats = ?)");
+         st.setString(1, adres.getStraatnaam());
+         st.setInt(2, adres.getHuisnummer());
+         st.setString(3, adres.getToevoeging());
+         st.setString(4, adres.getPostcode());
+         st.setString(5, adres.getWoonplaats());
+         rs = st.executeQuery();
+        
+         if (rs.next()){
+            id = rs.getInt(1);
+         }
+      } catch (SQLException e) {
+         e.printStackTrace();
       }
       return id;
    }

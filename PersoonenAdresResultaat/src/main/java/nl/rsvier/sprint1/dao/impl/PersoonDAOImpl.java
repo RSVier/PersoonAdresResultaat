@@ -156,5 +156,16 @@ public class PersoonDAOImpl implements GenericDAO<Persoon> {
 
       return persoon;
    }
+   
+   public void koppelPersoonAanAdres(Persoon persoon, int adresID){
+      try{
+         PreparedStatement st = connection.prepareStatement("update persoon set Adres_id = ? where id = ?");
+         st.setInt(1, adresID);
+         st.setInt(2, persoon.getId());
+         st.executeUpdate();
+      }catch(SQLException e) {
+         e.printStackTrace();
+      }
+   }
 
 }
