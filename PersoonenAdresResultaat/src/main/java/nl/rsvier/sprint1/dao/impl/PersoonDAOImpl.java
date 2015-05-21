@@ -79,9 +79,12 @@ public class PersoonDAOImpl implements GenericDAO<Persoon> {
    @Override
    public void delete(Persoon persoon) {
       try {
-         PreparedStatement st = connection.prepareStatement("delete from persoon where id = ?");
-         st.setInt(1, persoon.getId());
-         st.executeUpdate();
+    	 PreparedStatement st = connection.prepareStatement("delete from resultaat where persoon_id = ?");
+     	 st.setInt(1, persoon.getId());
+     	 st.executeUpdate();
+         PreparedStatement st1 = connection.prepareStatement("delete from persoon where id = ?");
+         st1.setInt(1, persoon.getId());
+         st1.executeUpdate();
       } catch (SQLException ex) {
          ex.printStackTrace();
       }

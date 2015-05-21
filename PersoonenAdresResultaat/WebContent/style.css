@@ -1,0 +1,162 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	margin-left:50px;
+	font: 1em sans-serif;
+}
+
+a {
+	font: 1em sans-serif;
+}
+
+#indexlinks {
+	margin-right:50px;
+}
+
+button {
+	font: 1em sans-serif;
+}
+
+input {
+	font: 1em sans-serif;
+}
+
+select {
+	font: 1em sans-serif;
+	width:100px;
+}
+
+table, th, td {
+	border: 1px solid;
+	border-color:#999999;
+	border-collapse:collapse;
+	padding:5px;
+}
+
+thead {
+	background:#BBBBBB;
+}
+
+.persoonlijst th, td {
+	width:200px;
+}
+
+#CRUDOpties {
+	width:450px;
+}
+
+#CRUDOpties a {
+	float:left;
+	width:150px;
+	text-align:center;
+	font: 1em sans-serif;
+}
+
+.formToevoegen form {
+	width:450px;
+}
+
+.formToevoegen label {
+	display: inline-block;
+	width:150px;
+	align:left;
+	margin-top:10px;
+}
+
+.formToevoegen input {
+	width:200px;
+	padding:2px;
+	font: 1em sans-serif;
+	margin-top:10px;
+	-moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.formToevoegen button {
+	width:200px;
+	margin-left:75px;
+	margin-top:30px;
+	font: 1em sans-serif;
+}
+
+.resultatenlijst th, td {
+	width:100px;
+}
+
+.resultatenlijst input {
+	width:100px;
+	font: 1em sans-serif;
+}
+
+.voegResult {
+	text-align:center;
+	font: 1em sans-serif;
+}
+
+.center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.resultaatButtons {
+	margin-top:30px;
+	font: 1em sans-serif;
+}
+
+#verwijderSelectie {
+	margin-left:50px;
+	margin-top:30px;
+	font: 1em sans-serif;
+	float:left;
+}
+
+#addRow {
+	margin-left:30px;
+	margin-top:30px;
+	font: 1em sans-serif;
+}
+
+.addForm {
+	width:210px;
+}
+
+.addForm div {
+	margin-top:30px;
+	border:1px solid black;
+	width:210px;
+	padding-right:20px;
+	padding-left:20px;
+	padding-bottom:50px;
+}
+
+.addForm label {
+	display: inline-block;
+	width:110px;
+	align:left;
+	margin-top:5px;
+}
+
+.addForm input {
+	width:100px;
+	padding:2px;
+	font: 1em sans-serif;
+	margin-top:5px;
+	-moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.addForm select {
+	width:100px;
+	padding:2px;
+	font: 1em sans-serif;
+	margin-top:5px;
+	-moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.addForm button {
+	width:90px;
+	margin-top:15px;
+	margin-right:10px;
+	float:left;
+}
